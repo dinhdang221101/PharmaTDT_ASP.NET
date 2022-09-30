@@ -1,0 +1,235 @@
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Pharma &mdash; Colorlib</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+        <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Store">WebAPI</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Store">Home</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+ 
+        <div class="container my-3">
+        <div class="row align-items-center py-5">
+            <div class="col-6">
+                <h3>
+                    Web API</h2>
+            </div>
+            <div class="col-6">
+                <div class="dropdown text-right">
+
+                    Xin chào <a id="user-email" data-user="@HttpContextAccessor.HttpContext.Session.GetString("_User")"
+                        class="dropdown-toggle text-primary" data-toggle="dropdown">
+                        @HttpContextAccessor.HttpContext.Session.GetString("_User")
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="listOrder">
+                            <i class="fas fa-info-circle"></i>
+                            &nbsp;&nbsp;Danh sách đơn hàng
+                        </a>
+                        <a class="dropdown-item" href="/">
+                            <i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp; Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-light py-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-0">
+                        <a href="store">Trang Chủ</a> <span class="mx-2 mb-0">/</span>
+                        @*<a href="shop.html">Cửa Hàng</a> <span class="mx-2 mb-0">/</span>*@
+                        <strong id="nameThuocH" class="text-black"></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="site-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 mr-auto">
+                        <div class="border text-center">
+                            <img id="image" src="" alt="Image" class="img-fluid p-5">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h2 id="nameThuoc" class="text-black"></h2>
+                        <p id = "desc">
+                        </p>
+
+
+                        <p>  <strong id="priceThuoc" class="text-primary h4"></strong></p>
+
+
+
+                        <div class="mb-5">
+                            <div class="input-group mb-3" style="max-width: 220px;">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                                </div>
+                                <input id="quantityThuoc" type="text" class="form-control text-center" value="1" placeholder=""
+                                       aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <p><a class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary">Đặt hàng</a></p>
+                        
+                    </div>
+                </div>
+            </div>
+            </div>
+                <div style="display: none;" id="flash-alert" class="alert alert-success text-center mx-auto my-3 toast_success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong style="width: 100%" class="buy-message"></strong>
+            </div>
+            <div class="modal fade modal-buy" id="confirm-buy">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">Đặt hàng</h4>
+                            <button type="button" class="close btn-cancel" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="modal-body">
+                            Bạn có chắc rằng muốn đặt đơn hàng này với giá <strong class="total-order"></strong> không?
+                        </div>
+
+                        <div class="modal-footer">
+                            <button id="btn-confirm-buy" type="button" class="btn btn-primary"
+                                data-dismiss="modal">Đặt ngay</button>
+                            <button type="button" class="btn btn-secondary btn-cancel" data-dismiss="modal">Không</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @section Scripts{
+        <script>
+            if(!$('#user-email').data("user") ){
+                window.location.href = '/'
+            }
+            $.ajax({
+                type: 'GET',
+                url: "/api/product/" + window.location.search.split('=').pop(),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    ajaxLoad(data.data)
+                }
+            });
+
+            function ajaxLoad(data){
+                $('#nameThuocH').html(data.name);
+                $('#image').attr('src', `../images/${data.image}`)
+                $('#nameThuoc').html(data.name);
+                $('#nameThuoc').attr('data-id', data.thuocId);
+                $('#priceThuoc').html(data.price + "VNĐ");
+                $('#desc').html(data.description)
+            }
+            $(document).ready(() =>{
+
+		            $('.js-btn-minus').on('click', function(e){
+			            e.preventDefault();
+			            if ( $(this).closest('.input-group').find('.form-control').val() != 0  ) {
+				            $(this).closest('.input-group').find('.form-control').val(parseInt($(this).closest('.input-group').find('.form-control').val()) - 1);
+			            } else {
+				            $(this).closest('.input-group').find('.form-control').val(parseInt(0));
+			            }
+		            });
+
+		            $('.js-btn-plus').on('click', function(e){
+			            e.preventDefault();
+			            $(this).closest('.input-group').find('.form-control').val(parseInt($(this).closest('.input-group').find('.form-control').val()) + 1);
+		            });
+
+                    $('.buy-now').click(e => {
+                        if(!$('#user-email').data("user") ){
+                            window.location.href = '/'
+                        }
+                        $('#confirm-buy').modal('show')
+
+                        console.log($('#quantityThuoc').val())
+                        console.log($('#nameThuoc').data("id"))
+                        console.log($('#priceThuoc').text())
+                        let total = parseInt($('#priceThuoc').text()) * parseInt($('#quantityThuoc').val())
+                        console.log($('#user-email').data("user"))
+                        console.log(total)
+                        $('.modal-buy .total-order').html(total+'VNĐ')
+                    });
+
+                    $('.btn-cancel').click(e => {
+                        $('#confirm-buy').modal('hide')
+                    })
+
+                    $('#btn-confirm-buy').click(e => {
+                        let email = $('#user-email').data("user")
+                        let thuocId = $('#nameThuoc').data("id")
+                        let total = parseInt($('#priceThuoc').text()) * parseInt($('#quantityThuoc').val())
+                        let quantity = $('#quantityThuoc').val()
+                        let form = new FormData();
+                        form.set('email', email)
+                        form.set('thuocId', thuocId);
+                        form.set('total', total);
+                        form.set('quantity', quantity);
+                        $.ajax({
+                            type: 'POST',
+                            url: "/api/order",
+                            data: form,
+                            processData: false,
+                            contentType: false,
+                            success: function (data) {
+                                if(data.status == 200){
+                                    showToast(data.message);
+                                    $('#confirm-buy').modal('hide')
+                                }
+                            }
+                        });
+                    })
+
+                    function showToast(message) {
+                        $('#flash-alert').fadeIn(100)
+                        $('#flash-alert .buy-message').html(message)
+
+                        setTimeout(() => {
+                            $('#flash-alert').fadeOut(2000)
+                        }, 2000)
+                    }
+
+                    console.log(window.location.search.split('=').pop())
+            })    
+        </script>
+        }
+</body>
+
+</html>

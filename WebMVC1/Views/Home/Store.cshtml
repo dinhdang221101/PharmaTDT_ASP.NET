@@ -1,0 +1,222 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>TDTU Pharma</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+           <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+        <link rel="stylesheet" href="~/css/bootstrap.min.css">
+        <link rel="stylesheet" href="~/css/magnific-popup.css">
+        <link rel="stylesheet" href="~/css/jquery-ui.css">
+        <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+
+
+        <link rel="stylesheet" href="~/css/aos.css">
+
+        <link rel="stylesheet" href="~/css/style.css">
+
+    </head>
+
+    <body>
+        <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Store">WebAPI</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Store">Home</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+        <div class="site-wrap">
+
+
+           <div class="container my-3">
+                <div class="row align-items-center py-5">
+                    <div class="col-6">
+                        <h3>
+                            Web API</h2>
+                    </div>
+                    <div class="col-6">
+                        <div class="dropdown text-right">
+
+                            Xin chào <a id="user-email" data-user="@HttpContextAccessor.HttpContext.Session.GetString("_User")"
+                                class="dropdown-toggle text-primary" data-toggle="dropdown">
+                                @HttpContextAccessor.HttpContext.Session.GetString("_User")
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="listOrder">
+                                    <i class="fas fa-info-circle"></i>
+                                    &nbsp;&nbsp;Danh sách đơn hàng
+                                </a>
+                                <a class="dropdown-item" href="/">
+                                    <i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp; Đăng xuất</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+           
+            <div style="margin-top: 50px" class="site-section">
+                <div class="container">
+                    <div class="row align-items-stretch section-overlap">
+                        <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+                            <div class="banner-wrap bg-primary h-100">
+                                <a href="#" class="h-100">
+                                    <div class="lc__list-icon">
+                                        <picture>
+                                            <img src="~/imagesTemp/ic-guarantee-vector.svg" alt="">
+                                        </picture>
+                                    </div>
+                                    <h5>Chính Hãng</h5>
+                                    <p>
+                                        <strong>Cam kết 100% chất lượng sản phẩm</strong>
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+                            <div class="banner-wrap h-100">
+                                <a href="#" class="h-100">
+                                    <div class="lc__list-icon">
+                                        <picture>
+                                            <img src="~/imagesTemp/ic-reload-vector.svg" alt="">
+                                        </picture>
+                                    </div>
+                                    <h5>Đổi Trả</h5>
+                                    <p>
+                                        <strong>Đổi trả trong 7 ngày.</strong>
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+                            <div class="banner-wrap bg-warning h-100">
+                                <a href="#" class="h-100">
+                                    <div class="lc__list-icon">
+                                        <picture>
+                                            <img src="~/imagesTemp/ic-shipping.svg" alt="">
+                                        </picture>
+                                    </div>
+                                    <h5>Vận Chuyển</h5>
+                                    <p>
+                                        <strong>Giao hàng tận nơi trên toàn quốc.</strong>
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="site-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="title-section text-center col-12">
+                            <h2 class="text-uppercase">Danh sách sản phẩm</h2>
+                        </div>
+                    </div>
+
+                    <div id="blockDSSP" class="row">
+                       
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-12 text-center">
+                            <a href="#" class="btn btn-primary px-4 py-3">1</a>
+                            <a href="#" class="btn btn-primary px-4 py-3">2</a>
+                            <a href="#" class="btn btn-primary px-4 py-3">3</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="container">
+                <div class="row align-items-stretch">
+                    <div class="col-lg-6 mb-5 mb-lg-0">
+                        <a href="#" class="banner-1 h-100 d-flex">
+                            <div class="banner-1-inner align-self-center">
+                                <h2>Cam kết về chất lượng sản phẩm</h2>
+                                <p>
+                                    Hoàn tiền 100% giá trị hàng hoá bán ra nếu hàng hoá bán ra không đúng cam kết, sai nguồn gốc.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-6 mb-5 mb-lg-0">
+                        <a href="#" class="banner-1 h-100 d-flex" >
+                            <div class="banner-1-inner ml-auto  align-self-center">
+                                <h2>Cam kết về dịch vụ</h2>
+                                <p>
+                                    Chúng tôi sẽ đồng hành với từng khách hàng trong suốt quá trình sử dụng.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    
+</div>
+<script src="~/js/jquery-3.3.1.min.js"></script>
+<script src="~/js/jquery-ui.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+<script src="~/js/jquery.magnific-popup.min.js"></script>
+<script src="~/js/aos.js"></script>
+
+<script src="~/js/main.js"></script>
+<script>
+    if(!$('#user-email').data("user") ){
+                window.location.href = '/'
+            }
+    $(document).ready(() => {
+        $.ajax({
+            type: 'GET',
+            url: "/api/product",
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                ajaxLoad(data.data)
+            }
+        });
+
+        function ajaxLoad(data){
+            for(let i = 0; i < data.length; i++){
+                console.log(i, data[i])
+                $('#blockDSSP').append(`<div class="col-sm-6 col-lg-4 text-center item mb-4">
+                                <div style="height: 100px ;display: flex; justify-content: center">
+                                    <a  href="details?thuocId=${data[i].thuocId}"> <img style="width: 100px;  " src="../images/${data[i].image}" alt="Image"></a>
+                                </div>
+                                
+                                <h3 class="text-dark"><a href="details?thuocId=${data[i].thuocId}">${data[i].name}</a></h3>
+                                <p class="price">${data[i].price}VNĐ</p>
+                            </div>`)
+            }
+        }
+    })
+</script>
+</body>
+
+</html>

@@ -1,0 +1,153 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>TDTU Pharma</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+           <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+        <link rel="stylesheet" href="~/css/bootstrap.min.css">
+        <link rel="stylesheet" href="~/css/magnific-popup.css">
+        <link rel="stylesheet" href="~/css/jquery-ui.css">
+        <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+
+
+        <link rel="stylesheet" href="~/css/aos.css">
+
+        <link rel="stylesheet" href="~/css/style.css">
+
+    </head>
+
+    <body>
+        <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="qlsp">WebAPI</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="qlsp">Quản lý thuốc</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+        <div class="site-wrap">
+
+
+           <div class="container my-3">
+                <div class="row align-items-center py-5">
+                    <div class="col-6">
+                        <h3>
+                            Web API</h2>
+                    </div>
+                    <div class="col-6">
+                        <div class="dropdown text-right">
+
+                            Xin chào <a id="user-email" data-user="@HttpContextAccessor.HttpContext.Session.GetString("_User")"
+                                class="dropdown-toggle text-primary" data-toggle="dropdown">
+                                @HttpContextAccessor.HttpContext.Session.GetString("_User")
+                            </a>
+                            <div class="dropdown-menu">
+                                
+                                <a class="dropdown-item" href="/">
+                                    <i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp; Đăng xuất</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+          
+            <div class="site-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="title-section text-center col-12">
+                            <h2 class="text-uppercase">Quản lý thuốc</h2>
+                        </div>
+                    </div>
+                    <a style="margin: 30px 100px" href="addProduct" class="btn btn-primary px-4 py-3">Thêm thuốc</a>
+                    <div id="blockDSSP" class="row">
+                            @*<div class="col-sm-6 col-lg-4 text-center item mb-4">
+                                <div style="height: 100px ;display: flex; justify-content: center">
+                                    <a  href=""> <img style="width: 100px;  " src="~/images/bong-gac.jpg" alt="Image"></a>
+                                </div>
+                                
+                                <h3 class="text-dark"><a href="">dbrr</a></h3>
+                                <p class="price">10000đ</p>
+                            </div>*@
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-12 text-center">
+                            <a href="#" class="btn btn-primary px-4 py-3">1</a>
+                            <a href="#" class="btn btn-primary px-4 py-3">2</a>
+                            <a href="#" class="btn btn-primary px-4 py-3">3</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+
+    
+</div>
+<script src="~/js/jquery-3.3.1.min.js"></script>
+<script src="~/js/jquery-ui.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+<script src="~/js/jquery.magnific-popup.min.js"></script>
+<script src="~/js/aos.js"></script>
+
+<script src="~/js/main.js"></script>
+<script>
+    //$('#blockDSSP').append(`<div class="col-sm-6 col-lg-4 text-center item mb-4">
+    //                            <div style="height: 100px ;display: flex; justify-content: center">
+    //                                <a  href=""> <img style="width: 100px;  " src="../images/bong-gac.jpg" alt="Image"></a>
+    //                            </div>
+                                
+    //                            <h3 class="text-dark"><a href="">dbrr</a></h3>
+    //                            <p class="price">10000đ</p>
+    //                        </div>`)
+
+    if(!$('#user-email').data("user") ){
+                window.location.href = '/'
+            }
+    $(document).ready(() => {
+        $.ajax({
+            type: 'GET',
+            url: "/api/product",
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                ajaxLoad(data.data)
+            }
+        });
+
+        function ajaxLoad(data){
+            for(let i = 0; i < data.length; i++){
+                console.log(i, data[i])
+                $('#blockDSSP').append(`<div class="col-sm-6 col-lg-4 text-center item mb-4">
+                                <div style="height: 100px ;display: flex; justify-content: center">
+                                    <a  href="QLCTSP?thuocId=${data[i].thuocId}"> <img style="width: 100px;  " src="../images/${data[i].image}" alt="Image"></a>
+                                </div>
+                                
+                                <h3 class="text-dark"><a href="QLCTSP?thuocId=${data[i].thuocId}">${data[i].name}</a></h3>
+                                <p class="price">${data[i].price}VNĐ</p>
+                            </div>`)
+            }
+        }
+    })
+</script>
+</body>
+
+</html>

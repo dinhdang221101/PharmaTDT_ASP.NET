@@ -1,0 +1,188 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Danh sách sản phẩm</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .progress.hide {
+            opacity: 0;
+            transition: opacity 1.3s;
+        }
+
+        .fa,
+        .fas {
+            color: #858585;
+        }
+
+        .fa-folder {
+            color: rgb(74, 158, 255);
+        }
+
+        i.fa,
+        table i.fas {
+            font-size: 16px;
+            margin-right: 6px;
+        }
+
+        i.action {
+            cursor: pointer;
+        }
+
+        a {
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Store">WebAPI</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Store">Home</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container my-3">
+        <div class="row align-items-center py-5">
+            <div class="col-6">
+                <h3>
+                    Web API</h2>
+            </div>
+            <div class="col-6">
+                <div class="dropdown text-right">
+
+                    Xin chào <a id="user-email" data-user="@HttpContextAccessor.HttpContext.Session.GetString("_User")"
+                        class="dropdown-toggle text-primary" data-toggle="dropdown">
+                        @HttpContextAccessor.HttpContext.Session.GetString("_User")
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="">
+                            <i class="fas fa-info-circle"></i>
+                            &nbsp;&nbsp;Danh sách đơn hàng
+                        </a>
+                        <a class="dropdown-item" href="/">
+                            <i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp; Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="my-5 text-primary text-center text-uppercase">Danh sách đơn đặt hàng</h4>
+        <table class="table table-striped border">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>orderID</th>
+                    <th>total</th>
+                    <th>thuocId</th>
+                    <th>quantity</th>
+                </tr>
+            </thead>
+            <tbody id="tbody_id">
+                @*<% users.forEach(function(u, index){ %>
+                    <tr id="<%= u.id %>">
+                        <td>
+                            <%= index + 1 %>
+                        </td>
+                        <td id="<%= u.id %>-name">
+                            <a href="/users/<%= u.id %>">
+                                <%= u.name %>
+                            </a>
+                        </td>
+                        <td id="<%= u.id %>-gender">
+                            <%= u.gender %>
+                        </td>
+                        <td id="<%= u.id %>-age">
+                            <%= u.age %>
+                        </td>
+                        <td id="<%= u.id %>-email">
+                            <%= u.email %>
+                        </td>
+                        <td>
+                            <button id="<%= u.id %>-edit" data-id="<%= u.id %>" data-name="<%= u.name %>" data-gender="<%= u.gender %>" 
+                                data-age="<%= u.age %>" data-email="<%= u.email %>" class="btn btn-sm btn-outline-primary btn-edit">Edit</button>
+                            <button id="<%= u.id %>-delete" data-length="<%= users.length %>" data-id="<%= u.id %>" data-name="<%= u.name %>"
+                                class="btn btn-sm btn-outline-danger btn-delete">Delete</button>
+                        </td>
+                    </tr>
+                    <% }); %>*@
+            </tbody>
+        </table>
+        @*<p id="UsersLength">Tổng số người dùng: <strong class="text-danger user-length">
+                <%= users.length %>
+            </strong></p>*@
+    </div>
+
+    <div style="display: none;" id="flash-alert" class="alert alert-success text-center w-25 mx-auto my-3 toast_delete">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <span>Đã xóa người dùng <strong class="user-name-deleted"></strong></span>
+    </div>
+
+     @section Scripts
+{
+    <script>
+        if(!$('#user-email').data("user") ){
+                window.location.href = '/'
+            }
+        
+        $.ajax({
+            type: 'GET',
+            url: "/api/order/" + $('#user-email').data("user"),
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                ajaxLoad(data.data)
+            }
+        });
+
+        function ajaxLoad(data) {
+            console.log(data, data.length)
+            var tbody = $('#tbody_id');
+            for(let i = 0; i < data.length; i++){
+                console.log(i, data[i])
+                tbody.append(`
+                    <tr>
+                        <td>
+                            ${i+1}
+                        </td>
+                        <td>
+                            ${data[i].orderId}
+                        </td>
+                        <td>
+                            ${data[i].total}VNĐ
+                        </td>
+                        <td>
+                            ${data[i].thuocId}
+                        </td>
+                        <td>
+                            ${data[i].quantity}
+                        </td>
+                               
+                    </tr>
+                    `)
+            }
+
+        }
+    </script>
+    }
+</body>
+
+</html>
